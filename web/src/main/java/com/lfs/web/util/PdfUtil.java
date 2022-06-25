@@ -1,10 +1,15 @@
 package com.lfs.web.util;
 
+import lombok.SneakyThrows;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 /**
@@ -20,39 +25,52 @@ import java.io.File;
  */
 public class PdfUtil {
 
+    @SneakyThrows
+    public static String getBase64() {
+        String url = "C:\\Users\\liaofushen\\Pictures\\1024.png";
+        //String url = "C:\\Users\\liaofushen\\Pictures\\punk2221.png";
+        String picBase64 = ImageUtil.getPicBase64(new File(url), 1920, 1080);
+        //System.out.println(picBase64);
+        return picBase64;
+    }
+
     public static void main(String args[]) throws Exception {
 
-        //Loading an existing document
-        PDDocument doc = new PDDocument();
-
         File file = new File("C:/PdfBox_Examples/sample.pdf");
-        //doc.save(file);
 
-        doc = PDDocument.load(file);
+        PDDocument doc = PDDocument.load(file);
 
-        if (doc.getPages().getCount() < 1) {
-            doc.addPage(new PDPage());
-            doc.save(file);
+        while (doc.getPages().getCount() > 0) {
+            doc.getPages().remove(0);
         }
-        //Retrieving the page
-        PDPage page = doc.getPage(0);
 
-        //Creating PDImageXObject object
-        PDImageXObject pdImage = PDImageXObject.createFromFile("C:/PdfBox_Examples/punk2221.png", doc);
+        for (int i = 0; i < 3; ++i) {
 
-        //creating the PDPageContentStream object
-        PDPageContentStream contents = new PDPageContentStream(doc, page);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(ImageUtil.decode(getBase64()));
 
-        //Drawing the image in the PDF document
-        contents.drawImage(pdImage, 70, 250);
+            PDImageXObject pdImage = JPEGFactory.createFromImage(doc, ImageIO.read(byteArrayInputStream));
 
-        System.out.println("Image inserted");
+            //Creating PDImageXObject object
+            // PDImageXObject pdImage = PDImageXObject.createFromFile(
+            //         String.format("C:/PdfBox_Examples/%s.png", i), doc);
 
-        //Closing the PDPageContentStream object
-        contents.close();
+            doc.addPage(new PDPage(new PDRectangle(pdImage.getWidth(), pdImage.getHeight())));
+            //doc.save(file);
+
+            //creating the PDPageContentStream object
+            PDPageContentStream contents = new PDPageContentStream(doc, doc.getPage(i));
+
+            //Drawing the image in the PDF document
+            contents.drawImage(pdImage, 0, 0);
+
+            //Closing the PDPageContentStream object
+            contents.close();
+        }
 
         //Saving the document
-        doc.save("C:/PdfBox_Examples/sample.pdf");
+        doc.save(file);
+
+        System.out.println("Image inserted");
 
         //Closing the document
         doc.close();
