@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,9 +24,37 @@ import java.util.Map;
  * @modify 2022/4/8
  */
 @Controller
-@RequestMapping("/hello")
+@RequestMapping("/tecwealth/test")
 @Slf4j
-public class HelloController {
+public class TestController {
+
+
+    @RequestMapping("/hello")
+    public Map<String, Object> health() {
+        Map<String, Object> ans = new HashMap<>();
+        ans.put("code", 0);
+        ans.put("msg", "ok");
+        Map<String, Object> data = new HashMap<>();
+        data.put("field", "hello word");
+        ans.put("data", data);
+        return ans;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/test")
+    public Map<String, Object> meetingInvitation(HttpServletRequest request) throws IOException {
+        InputStream is = request.getInputStream();
+        String s = readStream(is);
+        log.info("body={}", s);
+        JSONObject ans = JSON.parseObject(s);
+        if (ans == null) {
+            ans = new JSONObject();
+        }
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        log.info("parameterMap={}", JSON.toJSONString(parameterMap.entrySet()));
+        ans.put("parameterMap", parameterMap.entrySet());
+        return ans;
+    }
 
     public static String readStream(InputStream in) {
         try {
@@ -52,19 +81,4 @@ public class HelloController {
         }
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/test")
-    public Map<String, Object> meetingInvitation(HttpServletRequest request) throws IOException {
-        InputStream is = request.getInputStream();
-        String s = readStream(is);
-        log.info("body={}", s);
-        JSONObject ans = JSON.parseObject(s);
-        if (ans == null) {
-            ans = new JSONObject();
-        }
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        log.info("parameterMap={}", JSON.toJSONString(parameterMap.entrySet()));
-        ans.put("parameterMap", parameterMap.entrySet());
-        return ans;
-    }
 }

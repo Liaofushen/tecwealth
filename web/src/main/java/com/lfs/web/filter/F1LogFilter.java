@@ -1,7 +1,11 @@
 package com.lfs.web.filter;
 
+import com.lfs.common.vo.LogVo;
+import com.lfs.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,16 +13,15 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.lfs.web.util.RequestUtil.*;
 
 /**
  * Filter02LogId
- * <p>
- * *@WebFilter has no element to define the order of filter of execution.
- * We need to define order in web.xml.
- * This may be because if we decide order of filter at class level using @WebFilter,
- * then what if we include third party library which has filter with same order.`
  *
  * @author fushenliao
  * @version 1.0.0
@@ -27,8 +30,8 @@ import java.io.IOException;
  * @modify 2022/4/8
  */
 @Slf4j
-// @WebFilter(filterName = "Filter01CacheRequest", urlPatterns = "/*")
-public class Filter01CacheRequest implements Filter {
+@WebFilter(filterName = "f1LogFilter", urlPatterns = "/*")
+public class F1LogFilter implements Filter {
 
     /*
      * (non-Javadoc)
@@ -49,20 +52,32 @@ public class Filter01CacheRequest implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
-        ContentCachingRequestWrapper req = new ContentCachingRequestWrapper((HttpServletRequest) request);
-        // application/x-www-form-urlencoded方式下getParameter会将body内容放到parameter里,
-        // ServletRequest.getInputStream只能读取一次，读取一次后会自动清空
-        // 用ContentCachingRequestWrapper调req.getInputStream()缓存起来
-        // String contentType = req.getContentType();
-        // if (contentType != null && contentType.contains("application/x-www-form-urlencoded")) {
-        //     try {
-        //         req.getInputStream();
-        //     } catch (Exception e) {
-        //         log.error("Fail to getInputStream in getLodId");
-        //     }
-        // }
-        log.debug("End doFilter {}", this.getClass().getSimpleName());
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse resp = (HttpServletResponse) response;
+
+        String logId = RequestUtil.getLogId(req);
+        long startTime = System.currentTimeMillis();
+
+        if (StringUtils.isEmpty(logId)) {
+            logId = "" + startTime;
+            log.info("No Find LOGID use default : " + logId);
+        }
+
+        RequestUtil.setLodId(logId);
+
+        log.info("Begin api request uri {}={} params=[{}] header={}",
+                req.getMethod(),
+                req.getRequestURI(),
+                getQueryString(req),
+                LogVo.newNoLimit(getHeaders(req)));
+
         chain.doFilter(req, response);
+
+        log.info("End api response uri {}={} cost={}ms code={}",
+                req.getMethod(),
+                req.getRequestURI(),
+                System.currentTimeMillis() - startTime,
+                resp.getStatus());
     }
 
     /*
@@ -72,5 +87,6 @@ public class Filter01CacheRequest implements Filter {
      */
     @Override
     public void destroy() {
+        RequestUtil.removeLodId();
     }
 }

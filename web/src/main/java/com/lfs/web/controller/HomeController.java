@@ -14,15 +14,17 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
-@RequestMapping("/tecwealth")
-public class HealthController {
+@RequestMapping("/tecwealth/api")
+public class HomeController {
 
-    @RequestMapping("/web/health")
+    @RequestMapping("/")
     public Map<String, Object> health() {
         Map<String, Object> ans = new HashMap<>();
         ans.put("code", 0);
         ans.put("msg", "ok");
-        ans.put("data", new HashMap<>(0));
+        Map<String, Object> data = new HashMap<>();
+        data.put("text", "hello word!");
+        ans.put("data", data);
         return ans;
     }
 

@@ -44,11 +44,11 @@
 
     <springProfile name="dev">
         <root level="DEBUG">
-            <appender-ref ref="file"/>
+            <appender-ref ref="asyncFile"/>
         </root>
     </springProfile>
 
-    <springProfile name="pro">
+    <springProfile name="online">
         <root level="INFO">
             <appender-ref ref="asyncFile"/>
         </root>

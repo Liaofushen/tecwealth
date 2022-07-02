@@ -35,6 +35,13 @@ public class LogVo {
         return ans;
     }
 
+    public static LogVo newLimit100(Object o) {
+        LogVo ans = new LogVo();
+        ans.limit = 100;
+        ans.object = o;
+        return ans;
+    }
+
     @Override
     public String toString() {
         String string = "";

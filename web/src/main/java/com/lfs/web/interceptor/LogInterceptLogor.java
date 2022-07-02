@@ -14,6 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,21 +37,21 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Component
 public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice {
 
-    private ThreadLocal<Long> startTime = new ThreadLocal<>();
+//    private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {
-        startTime.set(System.currentTimeMillis());
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
-        log.info("Begin api request uri={} query={} method={} header={} ip={} host={}",
-                request.getRequestURI(),
-                getQueryString(requestWrapper),
-                requestWrapper.getMethod(),
-                LogVo.newLimit200(getHeaders(requestWrapper)),
-                getRemoteIP(requestWrapper),
-                requestWrapper.getRemoteHost());
+//        startTime.set(System.currentTimeMillis());
+//        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+//        log.info("Begin api request uri={} query={} method={} header={} ip={} host={}",
+//                request.getRequestURI(),
+//                getQueryString(requestWrapper),
+//                requestWrapper.getMethod(),
+//                LogVo.newLimit100(getHeaders(requestWrapper)),
+//                getRemoteIP(requestWrapper),
+//                requestWrapper.getRemoteHost());
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
@@ -70,29 +71,32 @@ public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice
                                 HttpServletResponse response,
                                 Object handler,
                                 Exception ex) throws Exception {
-        //
-        // ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-        // String responseBody = getBody(responseWrapper.getContentAsByteArray(), UTF_8.name());
-        //
-        // log.info("End api response uri={} cost={}ms httpCode={} bodyCode={} body={}",
-        //         request.getRequestURI(),
-        //         System.currentTimeMillis() - startTime.get(),
-        //         response.getStatus(),
-        //         getBodyCode(responseBody),
-        //         LogVo.newLimit200(responseBody));
-        //
-        // responseWrapper.copyBodyToResponse();
+
+//         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
+//         String responseBody = getBody(responseWrapper.getContentAsByteArray(), UTF_8.name());
+//
+//         log.info("End api response uri={} cost={}ms httpCode={} bodyCode={} body={}",
+//                 request.getRequestURI(),
+//                 System.currentTimeMillis() - startTime.get(),
+//                 response.getStatus(),
+//                 getBodyCode(responseBody),
+//                 LogVo.newLimit200(responseBody));
+//
+//         responseWrapper.copyBodyToResponse();
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 
-    private int getBodyCode(String responseBody) {
+    private Integer getBodyCode(String responseBody) {
+        if (responseBody == null || responseBody.isEmpty()) {
+            return null;
+        }
         try {
             JSONObject bodyJson = JSON.parseObject(responseBody);
-            return bodyJson.getIntValue("code");
+            return bodyJson.getInteger("code");
         } catch (Exception e) {
             log.warn("Fail get bodyCode err={}", e.getMessage(), e);
         }
-        return 0;
+        return null;
     }
 
     private String getBody(byte[] contentAsByteArray, String characterEncoding) {
