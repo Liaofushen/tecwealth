@@ -59,7 +59,7 @@ public class F1LogFilter implements Filter {
 
         if (StringUtils.isEmpty(logId)) {
             logId = "" + startTime;
-            log.info("No Find LOGID use default : " + logId);
+            log.info("No Find {} use default {}={}", RequestUtil.LOGID, RequestUtil.LOGID, logId);
         }
 
         RequestUtil.setLodId(logId);
