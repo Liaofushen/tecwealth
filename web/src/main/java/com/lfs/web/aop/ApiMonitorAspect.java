@@ -28,7 +28,7 @@ public class ApiMonitorAspect {
         System.out.println("ApiMonitorAspect created");
     }
 
-    @Pointcut("@annotation(com.lfs.web.protocol.ApiMonitor)")
+    @Pointcut("@annotation(com.lfs.web.aop.protocol.ApiMonitor)")
     public void annotationPointcut() {
 
     }

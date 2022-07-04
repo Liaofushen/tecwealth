@@ -37,7 +37,7 @@
         <root level="INFO">
             <appender-ref ref="console"/>
         </root>
-        <logger level="DEBUG" name="com.lfs.web.filter" additivity="false">
+        <logger level="DEBUG" name="com.lfs.web.interceptor.filter" additivity="false">
             <appender-ref ref="console"/>
         </logger>
     </springProfile>
