@@ -73,8 +73,8 @@ public class ImageUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        String url = "C:\\Users\\liaofushen\\Pictures\\1024.png";
-        String picBase64 = getPicBase64(new File(url), 1920, 1080);
+        String url = "C:\\Users\\liaofushen\\Pictures\\image.png";
+        String picBase64 = getPicBase64(new File(url), 250, 250);
         System.out.println(picBase64);
         System.out.println(picBase64.getBytes().length);
         System.out.println((picBase64.getBytes().length / 1024.0) + "KB");
