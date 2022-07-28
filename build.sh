@@ -11,12 +11,11 @@ mvn clean package -Dmaven.test.skip=true -P$ENV
 
 rm -rf tecwealth
 mkdir tecwealth
-mkdir tecwealth/config
 mkdir tecwealth/logs
 
 cp -rf ./web/target/*.jar ./tecwealth/
-cp -rf ./web/target/classes/*.yml ./tecwealth/config
-cp -rf ./web/target/classes/*.xml ./tecwealth/config
+cp -rf ./web/target/classes/*.yml ./tecwealth/
+cp -rf ./web/target/classes/*.xml ./tecwealth/
 cp -rf ./sms.sh ./tecwealth
 
 rm -rf ~/tecwealth

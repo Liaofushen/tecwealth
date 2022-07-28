@@ -15,7 +15,7 @@ usage() {
 is_exist() {
   pid=$(ps -ef | grep $APP_NAME | grep -v grep | awk '{print $2}')
 
-  echo "ps number is: ${pid}"
+  #echo "ps number is: ${pid}"
   #如果不存在返回1，存在返回0
   if [ -z "${pid}" ]; then
     return 1
@@ -31,8 +31,8 @@ start() {
     echo "${APP_NAME} is already running. pid=${pid} ."
   else
     nohup java -jar $APP_DIR/$APP_NAME >logs/start.log 2>&1 &
-    #nohup java -jar $APP_DIR/$APP_NAME
     echo "${APP_NAME} start success"
+    status
   fi
 }
 
