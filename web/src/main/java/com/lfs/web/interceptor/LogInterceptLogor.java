@@ -35,23 +35,20 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 @Slf4j
 @Component
-public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice {
+public class LogInterceptLogor implements HandlerInterceptor {
 
-//    private ThreadLocal<Long> startTime = new ThreadLocal<>();
+    private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {
-//        startTime.set(System.currentTimeMillis());
-//        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
-//        log.info("Begin api request uri={} query={} method={} header={} ip={} host={}",
-//                request.getRequestURI(),
-//                getQueryString(requestWrapper),
-//                requestWrapper.getMethod(),
-//                LogVo.newLimit100(getHeaders(requestWrapper)),
-//                getRemoteIP(requestWrapper),
-//                requestWrapper.getRemoteHost());
+        startTime.set(System.currentTimeMillis());
+
+        log.info("Begin api request {} uri={} params=[{}] header={}",
+                request.getMethod(), request.getRequestURI(),
+                getQueryString(request),
+                LogVo.newLimit200(getHeaders(request)));
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
@@ -63,7 +60,6 @@ public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice
                            ModelAndView modelAndView) throws Exception {
 
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-
     }
 
     @Override
@@ -72,43 +68,14 @@ public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice
                                 Object handler,
                                 Exception ex) throws Exception {
 
-//         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-//         String responseBody = getBody(responseWrapper.getContentAsByteArray(), UTF_8.name());
-//
-//         log.info("End api response uri={} cost={}ms httpCode={} bodyCode={} body={}",
-//                 request.getRequestURI(),
-//                 System.currentTimeMillis() - startTime.get(),
-//                 response.getStatus(),
-//                 getBodyCode(responseBody),
-//                 LogVo.newLimit200(responseBody));
-//
-//         responseWrapper.copyBodyToResponse();
+        log.info("Finish api request {} uri={} cost={}",
+                request.getMethod(), request.getRequestURI(),
+                System.currentTimeMillis() - startTime.get());
+
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 
-    private Integer getBodyCode(String responseBody) {
-        if (responseBody == null || responseBody.isEmpty()) {
-            return null;
-        }
-        try {
-            JSONObject bodyJson = JSON.parseObject(responseBody);
-            return bodyJson.getInteger("code");
-        } catch (Exception e) {
-            log.warn("Fail get bodyCode err={}", e.getMessage(), e);
-        }
-        return null;
-    }
-
-    private String getBody(byte[] contentAsByteArray, String characterEncoding) {
-        try {
-            return new String(contentAsByteArray, characterEncoding);
-        } catch (Exception e) {
-            log.warn("Fail get body err={}", e.getMessage(), e);
-        }
-        return "";
-    }
-
-    private String getQueryString(ContentCachingRequestWrapper request) {
+    private String getQueryString(HttpServletRequest request) {
         String queryString = "";
         if (StringUtils.isNotEmpty(request.getQueryString())) {
             try {
@@ -120,7 +87,7 @@ public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice
         return queryString;
     }
 
-    private JSONObject getHeaders(ContentCachingRequestWrapper request) {
+    private JSONObject getHeaders(HttpServletRequest request) {
         JSONObject map = new JSONObject();
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -138,13 +105,4 @@ public class LogInterceptLogor implements HandlerInterceptor, ResponseBodyAdvice
         return request.getHeader("x-forwarded-for");
     }
 
-    @Override
-    public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
-    }
-
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        return null;
-    }
 }

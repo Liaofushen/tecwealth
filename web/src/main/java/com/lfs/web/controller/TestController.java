@@ -2,8 +2,17 @@ package com.lfs.web.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lfs.web.beans.domain.User;
+import com.lfs.web.controller.base.BaseController;
+import com.lfs.web.controller.base.BaseResp;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,12 +33,21 @@ import java.util.Map;
  * @modify 2022/4/8
  */
 @Controller
-@RequestMapping("/tecwealth/test")
+@RequestMapping("/test")
 @Slf4j
-public class TestController {
+@Validated
+@Api(value = "测试相关接口", tags = "测试相关接口")
+public class TestController extends BaseController {
 
+    @ResponseBody
+    @PostMapping("/user")
+    @ApiOperation(value = "testUser")
+    public BaseResp<User> testUser(@Validated @RequestBody User user) {
+        return BaseResp.success(user);
+    }
 
-    @RequestMapping("/hello")
+    @GetMapping("/hello")
+    @ResponseBody
     public Map<String, Object> health() {
         Map<String, Object> ans = new HashMap<>();
         ans.put("code", 0);
@@ -41,7 +59,7 @@ public class TestController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/test")
+    @PostMapping(value = "/test")
     public Map<String, Object> meetingInvitation(HttpServletRequest request) throws IOException {
         InputStream is = request.getInputStream();
         String s = readStream(is);

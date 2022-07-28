@@ -1,7 +1,7 @@
 package com.lfs.web.aop;
 
 import com.lfs.web.BaseTest;
-import com.lfs.web.protocol.ApiMonitor;
+import com.lfs.web.aop.protocol.ApiMonitor;
 import com.lfs.web.service.TestBeanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

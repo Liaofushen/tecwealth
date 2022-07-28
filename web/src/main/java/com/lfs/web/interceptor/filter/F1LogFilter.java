@@ -1,10 +1,8 @@
-package com.lfs.web.filter;
+package com.lfs.web.interceptor.filter;
 
 import com.lfs.common.vo.LogVo;
 import com.lfs.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.Filter;
@@ -18,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.lfs.web.util.RequestUtil.*;
+import static com.lfs.web.util.RequestUtil.getHeaders;
+import static com.lfs.web.util.RequestUtil.getQueryString;
 
 /**
  * Filter02LogId
@@ -30,7 +29,7 @@ import static com.lfs.web.util.RequestUtil.*;
  * @modify 2022/4/8
  */
 @Slf4j
-@WebFilter(filterName = "f1LogFilter", urlPatterns = "/*")
+//@WebFilter(filterName = "f1LogFilter", urlPatterns = "/*")
 public class F1LogFilter implements Filter {
 
     /*
@@ -60,7 +59,7 @@ public class F1LogFilter implements Filter {
 
         if (StringUtils.isEmpty(logId)) {
             logId = "" + startTime;
-            log.info("No Find LOGID use default : " + logId);
+            log.info("No Find {} use default {}={}", RequestUtil.LOGID, RequestUtil.LOGID, logId);
         }
 
         RequestUtil.setLodId(logId);

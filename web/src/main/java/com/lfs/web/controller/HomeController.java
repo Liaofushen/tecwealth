@@ -1,11 +1,11 @@
 package com.lfs.web.controller;
 
+import com.lfs.web.controller.base.BaseController;
+import com.lfs.web.controller.base.BaseResp;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Desc:
@@ -14,18 +14,12 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
-@RequestMapping("/tecwealth/api")
-public class HomeController {
+@RequestMapping("/")
+public class HomeController extends BaseController {
 
-    @RequestMapping("/")
-    public Map<String, Object> health() {
-        Map<String, Object> ans = new HashMap<>();
-        ans.put("code", 0);
-        ans.put("msg", "ok");
-        Map<String, Object> data = new HashMap<>();
-        data.put("text", "hello word!");
-        ans.put("data", data);
-        return ans;
+    @GetMapping("/")
+    public BaseResp health() {
+        return BaseResp.success(null);
     }
 
 }

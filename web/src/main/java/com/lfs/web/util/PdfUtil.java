@@ -1,16 +1,23 @@
 package com.lfs.web.util;
 
+import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.aspectj.util.FileUtil;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * PdfUtil
@@ -23,7 +30,48 @@ import java.io.File;
  * @create 2022/6/13
  * @modify 2022/6/13
  */
+@Slf4j
 public class PdfUtil {
+
+    public static byte[] toPdfBytes(List<String> base64s) {
+
+        PDDocument pdDocument = PdfUtil.toPdfDoc(base64s);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            pdDocument.save(output);
+        } catch (Exception e) {
+            log.warn("Fail to save PDDocument e={}", e.getMessage(), e);
+        }
+        return output.toByteArray();
+    }
+
+    public static PDDocument toPdfDoc(List<String> base64s) {
+        PDDocument doc = new PDDocument();
+
+        int page = base64s == null ? 0 : base64s.size();
+
+        for (int i = 0; i < page; ++i) {
+            try {
+                byte[] imageBytes = ImageUtil.decode(base64s.get(i));
+                BufferedImage bfImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+
+                // 图片是先转存JPG格式再贴到pdf，转化后的质量为0.75F
+                PDImageXObject pdImage = JPEGFactory.createFromImage(doc, bfImage, 0.75F, 72);
+
+                // 按图片尺寸定pdf页大小
+                doc.addPage(new PDPage(new PDRectangle(pdImage.getWidth(), pdImage.getHeight())));
+
+                PDPageContentStream contents = new PDPageContentStream(doc, doc.getPage(i));
+                contents.drawImage(pdImage, 0, 0);
+                contents.close();
+
+            } catch (Exception e) {
+                log.warn("Fail in cvtPdf i={} e={}", i, e.getMessage(), e);
+            }
+        }
+        return doc;
+    }
 
     @SneakyThrows
     public static String getBase64() {
@@ -36,44 +84,22 @@ public class PdfUtil {
 
     public static void main(String args[]) throws Exception {
 
-        File file = new File("C:/PdfBox_Examples/sample.pdf");
+        ArrayList<String> base64s = Lists.newArrayList(getBase64(), getBase64(), getBase64());
 
-        PDDocument doc = PDDocument.load(file);
+        PDDocument doc = toPdfDoc(base64s);
 
-        while (doc.getPages().getCount() > 0) {
-            doc.getPages().remove(0);
-        }
-
-        for (int i = 0; i < 3; ++i) {
-
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(ImageUtil.decode(getBase64()));
-
-            PDImageXObject pdImage = JPEGFactory.createFromImage(doc, ImageIO.read(byteArrayInputStream));
-
-            //Creating PDImageXObject object
-            // PDImageXObject pdImage = PDImageXObject.createFromFile(
-            //         String.format("C:/PdfBox_Examples/%s.png", i), doc);
-
-            doc.addPage(new PDPage(new PDRectangle(pdImage.getWidth(), pdImage.getHeight())));
-            //doc.save(file);
-
-            //creating the PDPageContentStream object
-            PDPageContentStream contents = new PDPageContentStream(doc, doc.getPage(i));
-
-            //Drawing the image in the PDF document
-            contents.drawImage(pdImage, 0, 0);
-
-            //Closing the PDPageContentStream object
-            contents.close();
-        }
-
-        //Saving the document
+        File file = new File("C:/PdfBox_Examples/sample_7.pdf");
         doc.save(file);
+        doc.close();
+
+        byte[] bytes = toPdfBytes(base64s);
+
+        byte[] bytes2 = FileUtil.readAsByteArray(file);
+
+        System.out.println(bytes.length);
+        System.out.println(bytes2.length);
 
         System.out.println("Image inserted");
-
-        //Closing the document
-        doc.close();
 
     }
 }

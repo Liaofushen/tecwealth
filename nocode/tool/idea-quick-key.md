@@ -1,5 +1,6 @@
-- File and code templates
-- Class
+# File and code templates
+
+## Class
 
 ```
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
@@ -18,8 +19,9 @@
   }
 ```
 
-- Live template
-- @jb
+# Live template
+
+## @jb
 
 ```
 <template name="@jb" value="@lombok.Data&#10;@lombok.Builder(toBuilder = true)&#10;@lombok.NoArgsConstructor&#10;@lombok.AllArgsConstructor" description="" toReformat="false" toShortenFQNames="true">
@@ -33,7 +35,7 @@
 @lombok.AllArgsConstructor
 ```
 
-- **c
+## **c
 
 ```
 <template name="**c" value="**&#10; * $description$&#10; * &#10; * @author fushenliao&#10; * @version 1.0.0&#10; * @create $date$&#10; * @modify $date$&#10; */" shortcut="ENTER" description="类注释" toReformat="true" toShortenFQNames="true">
@@ -53,7 +55,7 @@
  */
 ```
 
-- **m
+## **m
 
 ```
 <template name="**m" value="**&#10; * $description$&#10; $params$&#10; $return$" shortcut="ENTER" description="方法注释" toReformat="true" toShortenFQNames="true">
@@ -70,7 +72,7 @@
  $return$
 ```
 
-- //todo
+## //todo
 
 ``` 
 <template name="//todo" value="//TODO $date$ $time$ by fushenliao: $description$" shortcut="SPACE" description="" toReformat="true" toShortenFQNames="true">

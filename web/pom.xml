@@ -14,6 +14,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <swagger.version>2.7.0</swagger.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,6 +40,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -96,6 +106,20 @@
             <version>0.4.8</version>
         </dependency>
 
+
+        <!--swagger依赖 start-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <!--swagger依赖 end-->
+
         <!--pdfbox-->
 
         <dependency>
@@ -144,6 +168,59 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <!-- 打包后文件名称：项目名-环境-版本 -->
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <!--排除配置文件-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--先排除所有的配置文件-->
+                <excludes>
+                    <!--使用通配符，当然可以定义多个exclude标签进行排除-->
+                    <exclude>application*.yml</exclude>
+                </excludes>
+            </resource>
+
+            <!--根据激活条件引入打包所需的配置和文件-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 开启过滤替换功能-->
+                <filtering>true</filtering>
+                <includes>
+                    <!-- 项目打包完成的包中只包含当前环境文件 -->
+                    <include>application.yml</include>
+                    <include>application-${profile.active}.yml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
+
+    <!-- 多环境配置方案 -->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <profile.active>local</profile.active>
+            </properties>
+            <activation>
+                <!-- 默认情况下使用dev开发配置 如 打包时不包含 -p 参数-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!-- 打包命令package -P test -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profile.active>dev</profile.active>
+            </properties>
+        </profile>
+        <!-- 打包命令package -P prod -->
+        <profile>
+            <id>online</id>
+            <properties>
+                <profile.active>online</profile.active>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
