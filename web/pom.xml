@@ -12,6 +12,7 @@
         <groupId>com.lfs</groupId>
         <artifactId>tecwealth</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <properties>
@@ -19,6 +20,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.lfs</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -95,15 +102,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.lfs</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
-            <version>0.4.8</version>
         </dependency>
 
 
@@ -111,12 +111,10 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
         </dependency>
         <!--swagger依赖 end-->
 
@@ -125,37 +123,31 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>2.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>fontbox</artifactId>
-            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>jempbox</artifactId>
-            <version>1.8.11</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>xmpbox</artifactId>
-            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>preflight</artifactId>
-            <version>2.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox-tools</artifactId>
-            <version>2.0.0</version>
         </dependency>
 
         <!--pdfbox-->
