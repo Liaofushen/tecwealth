@@ -1,4 +1,4 @@
-package com.lfs.web.configuration;
+package com.lfs.web.config;
 
 import com.lfs.web.interceptor.LogInterceptLogor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
- * InterceptorConfiguration
+ * InterceptorConfig
  *
  * @author fushenliao
  * @version 1.0.0
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @modify 2022/4/25
  */
 @Configuration
-public class InterceptorConfiguration extends WebMvcConfigurationSupport {
+public class InterceptorConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     private LogInterceptLogor logInterceptLogor;
