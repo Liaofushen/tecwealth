@@ -1,4 +1,4 @@
-package com.lfs.web.util;
+package com.lfs.test.util;
 
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
@@ -82,7 +82,7 @@ public class PdfUtil {
         return picBase64;
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         ArrayList<String> base64s = Lists.newArrayList(getBase64(), getBase64(), getBase64());
 

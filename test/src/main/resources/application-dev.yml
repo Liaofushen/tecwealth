@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+#  //        @Value("${common.threadPool.corePoolSize:2}")
+#  private Integer corePoolSize;
+#  //    @Value("${common.threadPool.maxPoolSize:8}")
+#  private Integer maxPoolSize;
+#  //    @Value("${common.threadPool.deepAliveSeconds:60}")
+#  private Integer deepAliveSeconds;
+#  //    @Value("${common.threadPool.queueCapacity:20}")
+common:
+  thread-pool:
+    core-pool-size: 2
+    max-pool-size: 8
+    deep-alive-seconds: 60
+    queue-capacity: 30

@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+common:
+  thread-pool:
+    core-pool-size: 2
+    max-pool-size: 8
+    deep-alive-seconds: 60
+    queue-capacity: 30
