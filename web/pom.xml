@@ -3,17 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <version>${parent.version}</version>
-    <name>${artifactId}</name>
-    <description>${artifactId}</description>
-    <packaging>jar</packaging>
-
     <parent>
         <groupId>com.lfs</groupId>
         <artifactId>tecwealth</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+
+    <artifactId>web</artifactId>
+    <name>${artifactId}</name>
+    <description>${artifactId}</description>
+    <version>${parent.version}</version>
+    <packaging>jar</packaging>
+
 
     <properties>
         <swagger.version>2.7.0</swagger.version>
@@ -24,7 +27,7 @@
         <dependency>
             <groupId>com.lfs</groupId>
             <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${tecwealth.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

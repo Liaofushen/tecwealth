@@ -11,13 +11,13 @@
     <modules>
         <module>common</module>
         <module>web</module>
-        <module>server</module>
     </modules>
 
 
     <groupId>com.lfs</groupId>
     <artifactId>tecwealth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>tecwealth</name>
     <description>tecwealth</description>
     <packaging>pom</packaging>
@@ -38,6 +38,7 @@
         <spring-beans.version>5.3.20</spring-beans.version>
         <swagger.version>2.7.0</swagger.version>
 
+        <tecwealth.version>${version}</tecwealth.version>
     </properties>
 
     <dependencyManagement>
@@ -108,6 +109,26 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.15</version>
+            </dependency>
+
+
+            <!--swagger依赖 start-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <!--swagger依赖 end-->
 
         </dependencies>
     </dependencyManagement>
