@@ -1,0 +1,1 @@
+java -jar tecwealth-web-1.0.0-SNAPSHOT.jar
