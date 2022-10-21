@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lfs.tecwealth.common.vo.LogVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +50,7 @@ public class LogInterceptLogor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response,
                            Object handler,
-                           ModelAndView modelAndView) throws Exception {
+                           @Nullable ModelAndView modelAndView) throws Exception {
 
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
@@ -58,7 +59,7 @@ public class LogInterceptLogor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object handler,
-                                Exception ex) throws Exception {
+                                @Nullable Exception ex) throws Exception {
 
         log.info("Finish api request {} uri={} cost={}",
                 request.getMethod(), request.getRequestURI(),
@@ -90,11 +91,5 @@ public class LogInterceptLogor implements HandlerInterceptor {
         return map;
     }
 
-    private String getRemoteIP(HttpServletRequest request) {
-        if (request.getHeader("x-forwarded-for") == null) {
-            return request.getRemoteAddr();
-        }
-        return request.getHeader("x-forwarded-for");
-    }
 
 }

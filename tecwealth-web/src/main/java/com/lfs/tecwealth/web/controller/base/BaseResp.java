@@ -23,15 +23,15 @@ public class BaseResp<T> {
     private String msg;
     private T data;
 
-    public static <T> BaseResp success(T data) {
+    public static <T> BaseResp<T> success(T data) {
         return new BaseResp<>(200, "ok", data);
     }
 
-    public static BaseResp fail() {
+    public static BaseResp<?> fail() {
         return new BaseResp<>(1000, "fail", null);
     }
 
-    public static BaseResp fail(Integer code, String msg) {
+    public static BaseResp<?> fail(Integer code, String msg) {
         return new BaseResp<>(code, msg, null);
     }
 }

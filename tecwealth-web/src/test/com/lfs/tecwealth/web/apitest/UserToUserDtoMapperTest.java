@@ -1,6 +1,6 @@
 package com.lfs.web.apitest;
 
-import com.lfs.web.BaseTest;
+import com.lfs.tecwealth.web.BaseTest;
 
 public class UserToUserDtoMapperTest extends BaseTest {
 

@@ -1,15 +1,14 @@
 package com.lfs.tecwealth.web.thread;
 
-import com.alibaba.fastjson.JSON;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import lombok.Data;
 
 /**
  * ThreadPoolConfiguration
@@ -20,7 +19,6 @@ import java.util.concurrent.TimeUnit;
  * @modify 2022/4/21
  */
 @Configuration
-@Slf4j
 public class ThreadPoolConfiguration {
 
 

@@ -1,6 +1,5 @@
 package com.lfs.tecwealth.web.task;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
  * @modify 2022/7/6
  */
 @Component
-@Slf4j
 public class TestTask {
 
     /**
@@ -24,7 +22,7 @@ public class TestTask {
      */
     @Scheduled(cron = "0/3 * * * * *")
     public void show() {
-        //log.debug("0/3 * * * * *");
+        // log.debug("0/3 * * * * *");
     }
 
     /**
@@ -32,7 +30,7 @@ public class TestTask {
      */
     @Scheduled(fixedRate = 1000 * 2)
     public void print() {
-        //log.debug("每隔2秒执行一次");
+        // log.debug("每隔2秒执行一次");
     }
 
     @Configuration

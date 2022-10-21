@@ -26,7 +26,7 @@ public class BaseController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public BaseResp handBindException(MethodArgumentNotValidException e) {
+    public BaseResp<?> handBindException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         log.info("handle param error fieldErrors={} e={}", LogVo.newNoLimit(fieldErrors), e.getMessage(), e);
@@ -35,14 +35,14 @@ public class BaseController {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseBody
-    public BaseResp handConstraintViolationException(ValidationException e) {
+    public BaseResp<?> handConstraintViolationException(ValidationException e) {
         log.info("handle param error e={}", e.getMessage(), e);
         return BaseResp.fail(BzExceptConst.CODE_PARAM_ERROR, BzExceptConst.DESC_PARAM_ERROR);
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public BaseResp handThrowable(Throwable e) {
+    public BaseResp<?> handThrowable(Throwable e) {
         log.error("handle sys throwable e={}", e.getMessage(), e);
         return BaseResp.fail(BzExceptConst.CODE_FAIL_ERROR, BzExceptConst.DESC_FAIL_ERROR);
     }

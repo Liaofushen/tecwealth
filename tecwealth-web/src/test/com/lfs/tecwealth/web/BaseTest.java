@@ -1,4 +1,4 @@
-package com.lfs.web;
+package com.lfs.tecwealth.web;
 
 import com.lfs.tecwealth.web.WebApplication;
 import org.springframework.boot.test.context.SpringBootTest;
