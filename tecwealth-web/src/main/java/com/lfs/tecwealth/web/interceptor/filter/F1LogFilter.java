@@ -1,6 +1,6 @@
 package com.lfs.tecwealth.web.interceptor.filter;
 
-import com.lfs.common.vo.LogVo;
+import com.lfs.tecwealth.common.vo.LogVo;
 import com.lfs.tecwealth.web.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.thymeleaf.util.StringUtils;

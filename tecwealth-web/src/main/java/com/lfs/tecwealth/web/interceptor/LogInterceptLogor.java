@@ -1,7 +1,7 @@
 package com.lfs.tecwealth.web.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lfs.common.vo.LogVo;
+import com.lfs.tecwealth.common.vo.LogVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

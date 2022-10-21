@@ -1,6 +1,6 @@
 package com.lfs.tecwealth.web.controller.base;
 
-import com.lfs.common.vo.LogVo;
+import com.lfs.tecwealth.common.vo.LogVo;
 import com.lfs.tecwealth.web.constants.BzExceptConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
