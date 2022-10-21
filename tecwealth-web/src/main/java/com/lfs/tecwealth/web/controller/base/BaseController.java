@@ -9,8 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.xml.bind.ValidationException;
 import java.util.List;
+
+import javax.validation.ValidationException;
 
 /**
  * BaseController

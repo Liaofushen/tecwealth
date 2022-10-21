@@ -18,8 +18,8 @@
     <artifactId>tecwealth-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <name>${artifactId}</name>
-    <description>${artifactId}</description>
+    <name>${project.artifactId}</name>
+    <description>${project.artifactId}</description>
     <packaging>pom</packaging>
 
 

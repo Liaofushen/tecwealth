@@ -14,8 +14,8 @@
     <artifactId>tecwealth-common</artifactId>
     <version>${parent.version}</version>
 
-    <name>${artifactId}</name>
-    <description>${artifactId}</description>
+    <name>${project.artifactId}</name>
+    <description>${project.artifactId}</description>
     <packaging>jar</packaging>
 
     <dependencies>
