@@ -43,8 +43,6 @@ public class ThreadPoolConfiguration {
                 threadPoolConfig.deepAliveSeconds, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(threadPoolConfig.queueCapacity),
                 new ThreadPoolExecutor.CallerRunsPolicy());
-        log.info("commonThreadPoolExecutor:{}", JSON.toJSONString(executro));
-        log.info("queueCapacity:{}", threadPoolConfig.queueCapacity);
         return executro;
     }
 
