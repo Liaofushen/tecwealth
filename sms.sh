@@ -30,7 +30,8 @@ start() {
   if [ $? -eq "0" ]; then
     echo "${APP_NAME} is already running. pid=${pid} ."
   else
-    nohup java -jar $APP_DIR/$APP_NAME >logs/start.log 2>&1 &
+    # nohup java -jar $APP_DIR/$APP_NAME >logs/start.log 2>&1 &
+    nohup java -jar $APP_DIR/$APP_NAME 1>/dev/null 2>&1 &
     echo "${APP_NAME} start success"
     status
   fi
