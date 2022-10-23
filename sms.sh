@@ -1,7 +1,7 @@
 #!/bin/bash
 #这里可替换为你自己的执行程序，其他代码无需更改
-APP_NAME=web-0.0.1-SNAPSHOT.jar
-APP_DIR=.
+APP_NAME=tecwealth-web-1.0.0-SNAPSHOT.jar
+APP_DIR=tecwealth-web/target
 
 ACTION=$1
 
